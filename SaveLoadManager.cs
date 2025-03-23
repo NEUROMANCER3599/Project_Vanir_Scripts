@@ -32,6 +32,7 @@ public class SaveLoadManager : MonoBehaviour
         saveData.LatestPickupRangeBonus = player.PickupRangeBonus;
         saveData.LatestHealthBonus = player.HealthBonus;
         saveData.LatestMoveSpeedBonus = player.MoveSpeedBonus;
+        saveData.LatestHealthRegenBonus = player.HealthRegenBonus;
 
         string Json = JsonUtility.ToJson(saveData);
         string Path = Application.persistentDataPath + "/SaveData.json";
@@ -91,6 +92,7 @@ public class SaveLoadManager : MonoBehaviour
             player.PickupRangeBonus = LoadedData.LatestPickupRangeBonus;
             player.HealthBonus = LoadedData.LatestHealthBonus;
             player.MoveSpeedBonus = LoadedData.LatestMoveSpeedBonus;
+            player.HealthRegenBonus = LoadedData.LatestHealthRegenBonus;
         }
     }
 

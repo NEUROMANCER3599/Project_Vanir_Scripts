@@ -16,6 +16,7 @@ public class EnemyBehavior : MonoBehaviour
     public float MaxHP;
     [SerializeField] private float MaxStunTime;
     [SerializeField] private int Score;
+    [SerializeField] private float KillPowerbonusMultiplier;
     public float movespeed = 5;
     private float defaultmovespeed;
     
@@ -131,6 +132,8 @@ public class EnemyBehavior : MonoBehaviour
         Debug.Log("Enemy Killed");
 
         HP = 0;
+        player.InstantPowerRecover(KillPowerbonusMultiplier);
+        player.InstantHPRecover(KillPowerbonusMultiplier);
         aisensor.enabled = false;
         StunStop();
         rb.linearVelocity = Vector3.zero;

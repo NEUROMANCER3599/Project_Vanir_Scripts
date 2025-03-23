@@ -61,6 +61,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Video Player System")]
     [SerializeField] private VideoPlayer vidplayercomponent;
+    [SerializeField] private Slider VidTimeSlider;
+    private float VideoInterval;
+
 
     [Header("Voiceline Subtitle System")]
     public TextMeshProUGUI SubtitleText;
@@ -150,6 +153,13 @@ public class UIManager : MonoBehaviour
             VideoPanel.SetActive(true);
             NotePanel.SetActive(false);
             GameplayUIPanel.SetActive(false);
+
+
+            VidTimeSlider.value = (float)vidplayercomponent.time;
+
+            PausingVideo();
+            
+
         }
         else
         {
@@ -241,6 +251,24 @@ public class UIManager : MonoBehaviour
             levelSystem.UnfreezeTime();
         }
     }
+    void PausingVideo()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!vidplayercomponent.isPaused)
+            {
+                UISoundPlayer.clip = NoteReadSound;
+                UISoundPlayer.Play();
+                vidplayercomponent.Pause();
+            }
+            else
+            {
+                UISoundPlayer.clip = NoteCloseSound;
+                UISoundPlayer.Play();
+                vidplayercomponent.Play();
+            }
+        }
+    }
 
     public void CrosshairControl(bool status)
     {
@@ -303,6 +331,8 @@ public class UIManager : MonoBehaviour
         UISoundPlayer.Play();
 
         vidplayercomponent.clip = Video;
+        VidTimeSlider.maxValue = (float)vidplayercomponent.length;
+        //VidTimeSlider.value = (float)Video.length;
         vidplayercomponent.Play();
 
         IsDisplayingVideo = true;

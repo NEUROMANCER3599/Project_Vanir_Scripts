@@ -35,6 +35,7 @@ public class PauseMenuBehavior : MonoBehaviour
     [SerializeField] private TextMeshProUGUI HealthBonusLvlTxt;
     [SerializeField] private TextMeshProUGUI MoveSpeedBonusLvlTxt;
     [SerializeField] private TextMeshProUGUI SkillPowerLvlTxt;
+    [SerializeField] private TextMeshProUGUI HealthRegenLvlTxt;
 
     [Header("References")]
     [SerializeField] private LevelSystemManagement levelSystem;
@@ -77,6 +78,8 @@ public class PauseMenuBehavior : MonoBehaviour
             HealthBonusLvlTxt.text = "Level : " + playerSystem.HealthBonus;
             MoveSpeedBonusLvlTxt.text = "Level : " + playerSystem.MoveSpeedBonus;
             SkillPowerLvlTxt.text = "Level : " + playerSystem.SkillPowerBonus;
+            HealthRegenLvlTxt.text = "Level : " + playerSystem.HealthRegenBonus;
+            
         }
     }
 
@@ -130,6 +133,7 @@ public class PauseMenuBehavior : MonoBehaviour
                 case "HealthBonus": playerSystem.HealthBonus += 1; playerSystem.PerkPoint -= 1; break;
                 case "MoveSpeed": playerSystem.MoveSpeedBonus += 1; playerSystem.PerkPoint -= 1; break;
                 case "SkillPower": playerSystem.SkillPowerBonus += 1; playerSystem.PerkPoint -= 1; break;
+                case "HealthRegen": playerSystem.HealthRegenBonus += 1; playerSystem.PerkPoint -= 1; break;
             }
             levelSystem.PlayApproveSound();
         }

@@ -14,4 +14,5 @@ public class SaveData
     public float LatestMoveSpeedBonus;
     public float LatestPickupRangeBonus;
     public float LatestSkillPowerBonus;
+    public float LatestHealthRegenBonus;
 }

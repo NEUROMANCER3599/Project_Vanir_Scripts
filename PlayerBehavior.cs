@@ -38,6 +38,7 @@ public class PlayerBehavior : MonoBehaviour
     public float MoveSpeedBonus = 0;
     public float PickupRangeBonus = 0;
     public float SkillPowerBonus = 0;
+    public float HealthRegenBonus = 0;
 
     [Header("Player Components")]
     [SerializeField] private Light PowerLight;
@@ -142,14 +143,14 @@ public class PlayerBehavior : MonoBehaviour
 
         if(MeleeCooldown >= 1)
         {
-            if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.W)) //Melee Skill
+            if (Input.GetKeyDown(KeyCode.E)) //Melee Skill
             {
                 //PlayAudio_Melee();
                 Instantiate(MeleeBoxObject, MeleeBoxSpawnPoint.position, MeleeBoxSpawnPoint.rotation);
                 MeleeCooldown = 0;
                 UIControl.HandPunchAnimTrigger();
             }
-            else if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.S)) //Shield Skill
+            else if (Input.GetKeyDown(KeyCode.R)) //Shield Skill
             {
                 
                 Instantiate(ForceShieldObject, ForceShieldSpawnPoint.position, ForceShieldSpawnPoint.rotation);
@@ -157,19 +158,20 @@ public class PlayerBehavior : MonoBehaviour
                 UIControl.HandPunchAnimTrigger();
                 
             }
-            else if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.A)) //Projectile Skill
+            else if (Input.GetKeyDown(KeyCode.Q)) //Projectile Skill
             {
                 var Projectile =  Instantiate(SkillProjectileObject, SkillProjectileSpawnPoint.position, SkillProjectileSpawnPoint.rotation);
                 MeleeCooldown = 0;
                 UIControl.HandPunchAnimTrigger();
             }
+            /*
             else if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.D)) //Projectile Skill
             {
                 var Projectile = Instantiate(SkillProjectileObject, SkillProjectileSpawnPoint.position, SkillProjectileSpawnPoint.rotation);
                 MeleeCooldown = 0;
                 UIControl.HandPunchAnimTrigger();
             }
-
+            */
 
 
         }
@@ -178,12 +180,12 @@ public class PlayerBehavior : MonoBehaviour
     {
         if(HP < 100f + (HealthBonus * 10f))
         {
-            HP += 1.5f * Time.deltaTime;
+            HP += (1.5f + (HealthRegenBonus/5f)) * Time.deltaTime;
         }
 
         if(HP > 100 + (HealthBonus * 10f))
         {
-            HP = 100;
+            HP = 100 + (HealthBonus * 10f);
         }
     }
     
@@ -223,11 +225,11 @@ public class PlayerBehavior : MonoBehaviour
         }
         else if(PowerLevel > 0 && IsPowerDepleted == false)
         {
-            PowerLevel += (10f + (PowerRecoveryBonus * 1.25f)) * Time.deltaTime;
+            PowerLevel += (10f + (PowerRecoveryBonus * 2f)) * Time.deltaTime;
         }
         else if(IsPowerDepleted == true)
         {
-            PowerLevel += ((10f + (PowerRecoveryBonus * 1.25f))*0.5f) * Time.deltaTime;
+            PowerLevel += ((10f + (PowerRecoveryBonus * 2f))*0.5f) * Time.deltaTime;
         }
         
         if(Input.GetMouseButtonUp(0))
@@ -262,6 +264,15 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
+    public void InstantPowerRecover(float multiplier)
+    {
+        PowerLevel += ((DefaultPowerLevel + (PowerReserveBonus * 10)) * 0.1f) * multiplier;
+    }
+
+    public void InstantHPRecover(float multiplier)
+    {
+        HP += ((100 + (HealthBonus * 10f)) * 0.1f) * multiplier;
+    }
     
     private void OnCollisionEnter(Collision other)
     {
